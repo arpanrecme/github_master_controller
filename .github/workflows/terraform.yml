@@ -1,19 +1,29 @@
----
+# This is a basic workflow to help you get started with Actions
+
 name: Terraform
+
 "on":
-  workflow_run:
-    workflows: [Terraform Cloud Workspace Create]
-    types: [completed]
-    branches: [main]
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  repository_dispatch:
+    types: ["api"]
+  workflow_dispatch:
 
 env:
+  GLOBAL_CONFIG_ENDPOINT: ${{ secrets.GLOBAL_CONFIG_ENDPOINT }}
+  VAULT_APPROLE_AUTH_MOUNT: ${{ secrets.VAULT_APPROLE_AUTH_MOUNT }}
+  VAULT_APPROLE_ID: ${{ secrets.VAULT_APPROLE_ID }}
+  VAULT_APPROLE_SECRET_ID: ${{ secrets.VAULT_APPROLE_SECRET_ID }}
+  ROOT_CA_CERTIFICATE: ${{ secrets.ROOT_CA_CERTIFICATE }}
+  VAULT_CLIENT_CHAIN_CERTIFICATE: ${{ secrets.VAULT_CLIENT_CHAIN_CERTIFICATE }}
+  VAULT_CLIENT_PRIVATE_KEY: ${{ secrets.VAULT_CLIENT_PRIVATE_KEY }}
+  # Apply vars
   TF_VAR_GLOBAL_CONFIG_ENDPOINT: ${{ secrets.GLOBAL_CONFIG_ENDPOINT }}
   TF_VAR_VAULT_APPROLE_AUTH_MOUNT: ${{ secrets.VAULT_APPROLE_AUTH_MOUNT }}
   TF_VAR_VAULT_APPROLE_ID: ${{ secrets.VAULT_APPROLE_ID }}
   TF_VAR_VAULT_APPROLE_SECRET_ID: ${{ secrets.VAULT_APPROLE_SECRET_ID }}
-  ROOT_CA_CERTIFICATE: ${{ secrets.ROOT_CA_CERTIFICATE }}
-  VAULT_CLIENT_CHAIN_CERTIFICATE: ${{ secrets.VAULT_CLIENT_CHAIN_CERTIFICATE }}
-  VAULT_CLIENT_PRIVATE_KEY: ${{ secrets.VAULT_CLIENT_PRIVATE_KEY }}
   TF_VAR_LOCAL_FILE_ROOT_CA_CERTIFICATE: root_ca_certificate.pem
   TF_VAR_LOCAL_FILE_VAULT_CLIENT_CHAIN_CERTIFICATE: vault_client_chain_certificate.pem
   TF_VAR_LOCAL_FILE_VAULT_CLIENT_PRIVATE_KEY: vault_client_private_key.pem
@@ -21,9 +31,16 @@ env:
   LOCAL_FILE_TERRAFORM_CLOUD_HOSTNAME: tfe_hostname.txt
   LOCAL_FILE_VAULT_TOKEN: ".vault-token.txt"
   LOCAL_FILE_TF_PROD_TOKEN: ".tf_prod_token.txt"
-
 jobs:
+  terraform_cloud_workspace_create:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - run: pip install -r tfe_init/requirements.txt
+      - run: python tfe_init/tf_cloud.py ./terraform backend.tf
   terraform_apply:
+    needs: ["terraform_cloud_workspace_create"]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -55,3 +72,26 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply "./tfplan"
+  github_release:
+    needs: ["terraform_apply"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.2
+        with:
+          fetch-depth: "0"
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: anothrNick/github-tag-action@1.52.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: major
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1.11.2
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}

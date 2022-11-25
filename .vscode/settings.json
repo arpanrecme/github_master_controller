@@ -10,6 +10,7 @@
         "keyrings",
         "Mandal",
         "markdownlint",
+        "ncipollo",
         "noninteractive",
         "OPENPGP",
         "runtimes",
