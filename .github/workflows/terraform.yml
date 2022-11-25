@@ -42,8 +42,6 @@ jobs:
       - name: Install pip packages
         id: install_pip_packages
         run: pip install -r tfe_init/requirements.txt
-      - name: Test Step out put
-        run: echo "${{ steps.install_pip_packages.outputs }}"
       - run: python tfe_init/tf_cloud.py ./terraform backend.tf
   terraform_apply:
     needs: ["terraform_cloud_workspace_create"]
