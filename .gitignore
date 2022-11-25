@@ -9,3 +9,4 @@ tfe_org.txt
 .vault-token.txt
 tfe_hostname.txt
 vault_client_chain_certificate.pem
+terraform/tfplan
