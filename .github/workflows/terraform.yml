@@ -1,0 +1,57 @@
+---
+name: Terraform
+"on":
+  workflow_run:
+    workflows: [Terraform Cloud Workspace Create]
+    types: [completed]
+    branches: [main]
+
+env:
+  TF_VAR_GLOBAL_CONFIG_ENDPOINT: ${{ secrets.GLOBAL_CONFIG_ENDPOINT }}
+  TF_VAR_VAULT_APPROLE_AUTH_MOUNT: ${{ secrets.VAULT_APPROLE_AUTH_MOUNT }}
+  TF_VAR_VAULT_APPROLE_ID: ${{ secrets.VAULT_APPROLE_ID }}
+  TF_VAR_VAULT_APPROLE_SECRET_ID: ${{ secrets.VAULT_APPROLE_SECRET_ID }}
+  ROOT_CA_CERTIFICATE: ${{ secrets.ROOT_CA_CERTIFICATE }}
+  VAULT_CLIENT_CHAIN_CERTIFICATE: ${{ secrets.VAULT_CLIENT_CHAIN_CERTIFICATE }}
+  VAULT_CLIENT_PRIVATE_KEY: ${{ secrets.VAULT_CLIENT_PRIVATE_KEY }}
+  TF_VAR_LOCAL_FILE_ROOT_CA_CERTIFICATE: root_ca_certificate.pem
+  TF_VAR_LOCAL_FILE_VAULT_CLIENT_CHAIN_CERTIFICATE: vault_client_chain_certificate.pem
+  TF_VAR_LOCAL_FILE_VAULT_CLIENT_PRIVATE_KEY: vault_client_private_key.pem
+  LOCAL_FILE_TERRAFORM_CLOUD_ORGANIZATION: tfe_org.txt
+  LOCAL_FILE_TERRAFORM_CLOUD_HOSTNAME: tfe_hostname.txt
+  LOCAL_FILE_VAULT_TOKEN: ".vault-token.txt"
+  LOCAL_FILE_TF_PROD_TOKEN: ".tf_prod_token.txt"
+
+jobs:
+  terraform_apply:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Get terraform init data
+        run: |
+          ./../.github/scripts/terraform_apply.sh
+
+      - name: Terraform Init
+        run: |+
+          terraform init \
+            --backend-config="token=$(cat "${LOCAL_FILE_TF_PROD_TOKEN}")" \
+            --backend-config="hostname=$(cat "${LOCAL_FILE_TERRAFORM_CLOUD_HOSTNAME}")" \
+            --backend-config="organization=$(cat "${LOCAL_FILE_TERRAFORM_CLOUD_ORGANIZATION}")"
+
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve

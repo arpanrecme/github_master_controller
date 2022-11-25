@@ -1,0 +1,11 @@
+.terraform*
+*.pyc
+secrets.sh
+prepare.sh
+root_ca_certificate.pem
+vault_client_private_key.pem
+.tf_prod_token.txt
+tfe_org.txt
+.vault-token.txt
+tfe_hostname.txt
+vault_client_chain_certificate.pem

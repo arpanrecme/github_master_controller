@@ -1,0 +1,37 @@
+{
+    "cSpell.words": [
+        "anothr",
+        "APPROLE",
+        "Arpan",
+        "arpanrecme",
+        "cicd",
+        "dearmor",
+        "hvac",
+        "keyrings",
+        "Mandal",
+        "markdownlint",
+        "noninteractive",
+        "OPENPGP",
+        "runtimes",
+        "tfvars",
+        "USERPASS"
+    ],
+    "terminal.integrated.env.linux": {
+        "GLOBAL_CONFIG_ENDPOINT": null,
+        "TF_VAR_GLOBAL_CONFIG_ENDPOINT": null,
+        "VAULT_APPROLE_AUTH_MOUNT": null,
+        "TF_VAR_VAULT_APPROLE_AUTH_MOUNT": null,
+        "VAULT_APPROLE_ID": null,
+        "TF_VAR_VAULT_APPROLE_ID": null,
+        "VAULT_APPROLE_SECRET_ID": null,
+        "TF_VAR_VAULT_APPROLE_SECRET_ID": null,
+        "LOCAL_FILE_ROOT_CA_CERTIFICATE": null,
+        "TF_VAR_LOCAL_FILE_ROOT_CA_CERTIFICATE": null,
+        "LOCAL_FILE_VAULT_CLIENT_CHAIN_CERTIFICATE": null,
+        "TF_VAR_LOCAL_FILE_VAULT_CLIENT_CHAIN_CERTIFICATE": null,
+        "LOCAL_FILE_VAULT_CLIENT_PRIVATE_KEY": null,
+        "TF_VAR_LOCAL_FILE_VAULT_CLIENT_PRIVATE_KEY": null,
+        "TF_PROD_TOKEN": null,
+        "TF_VAR_TF_PROD_TOKEN": null
+    }
+}
