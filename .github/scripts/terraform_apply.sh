@@ -50,3 +50,13 @@ echo "::add-mask::$(cat "${LOCAL_FILE_TF_PROD_TOKEN}")"
 
 echo -n "$(echo -n "${_global_config}" | jq -r '.TERRAFORM_CLOUD | .ORGANIZATION')" >"${LOCAL_FILE_TERRAFORM_CLOUD_ORGANIZATION}"
 echo -n "$(echo -n "${_global_config}" | jq -r '.TERRAFORM_CLOUD | .HOSTNAME')" >"${LOCAL_FILE_TERRAFORM_CLOUD_HOSTNAME}"
+
+curl --request POST --silent \
+    "${_vault_addr}"/v1/auth/token/revoke-self \
+    --cert "${TF_VAR_LOCAL_FILE_VAULT_CLIENT_CHAIN_CERTIFICATE}" \
+    --key "${TF_VAR_LOCAL_FILE_VAULT_CLIENT_PRIVATE_KEY}" \
+    --cacert "${TF_VAR_LOCAL_FILE_ROOT_CA_CERTIFICATE}" \
+    --header 'Content-Type: application/json' \
+    --header "X-Vault-Token: $(cat "${LOCAL_FILE_VAULT_TOKEN}")"
+
+rm -rf "${LOCAL_FILE_VAULT_TOKEN}"
