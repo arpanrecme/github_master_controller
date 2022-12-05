@@ -5,7 +5,7 @@ resource "github_repository" "ansible_collection_utilities" {
   license_template   = var.license_template
   auto_init          = true
   gitignore_template = "Python"
-  topics             = [var.project_topic_controlled_by_master, "ansible", "role", "galaxy"]
+  topics             = [var.project_topic_controlled_by_master, "ansible", "collection", "galaxy"]
 }
 
 resource "github_branch_default" "ansible_collection_utilities" {
