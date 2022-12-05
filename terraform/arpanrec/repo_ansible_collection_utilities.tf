@@ -1,5 +1,5 @@
-resource "github_repository" "repo_ansible_collection_utilities" {
-  name               = "repo_ansible_collection_utilities"
+resource "github_repository" "ansible_collection_utilities" {
+  name               = "ansible_collection_utilities"
   description        = "Ansible Collection"
   visibility         = "public"
   license_template   = var.license_template
@@ -8,18 +8,18 @@ resource "github_repository" "repo_ansible_collection_utilities" {
   topics             = [var.project_topic_controlled_by_master, "ansible", "role", "galaxy"]
 }
 
-resource "github_branch_default" "repo_ansible_collection_utilities" {
-  repository = github_repository.repo_ansible_collection_utilities.name
+resource "github_branch_default" "ansible_collection_utilities" {
+  repository = github_repository.ansible_collection_utilities.name
   branch     = var.repository_default_branch_01292022_main
 }
 
-resource "github_branch" "repo_ansible_collection_utilities_branch_feature_inprogress" {
-  repository = github_repository.repo_ansible_collection_utilities.name
+resource "github_branch" "ansible_collection_utilities_branch_feature_inprogress" {
+  repository = github_repository.ansible_collection_utilities.name
   branch     = "feature/inprogress"
 }
 
-resource "github_branch_protection" "repo_ansible_collection_utilities" {
-  repository_id                   = github_repository.repo_ansible_collection_utilities.node_id
+resource "github_branch_protection" "ansible_collection_utilities" {
+  repository_id                   = github_repository.ansible_collection_utilities.node_id
   pattern                         = "main"
   enforce_admins                  = true
   allows_deletions                = true
