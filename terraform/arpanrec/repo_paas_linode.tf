@@ -1,6 +1,6 @@
 resource "github_repository" "paas_linode" {
   name               = "paas_linode"
-  description        = "AWS Cloud management"
+  description        = "Linode Cloud management"
   visibility         = "public"
   license_template   = var.license_template
   auto_init          = true
