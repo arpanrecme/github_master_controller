@@ -18,11 +18,12 @@ resource "github_branch" "ansible_collection_utilities_branch_feature_inprogress
   branch     = "feature/inprogress"
 }
 
-resource "github_branch_protection" "ansible_collection_utilities" {
+resource "github_branch_protection" "ansible_collection_utilities_main" {
   repository_id                   = github_repository.ansible_collection_utilities.node_id
   pattern                         = "main"
   enforce_admins                  = true
-  allows_deletions                = true
+  allows_deletions                = false
+  allows_force_pushes             = false
   require_signed_commits          = true
   require_conversation_resolution = true
   required_status_checks {
@@ -34,4 +35,12 @@ resource "github_branch_protection" "ansible_collection_utilities" {
     restrict_dismissals             = false
     required_approving_review_count = 0
   }
+}
+
+resource "github_branch_protection" "ansible_collection_utilities_backup" {
+  repository_id       = github_repository.ansible_collection_utilities.node_id
+  pattern             = "backup/**"
+  allows_deletions    = false
+  allows_force_pushes = false
+  lock_branch         = true
 }
