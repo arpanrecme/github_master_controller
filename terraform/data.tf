@@ -6,7 +6,6 @@ data "vault_kv_secret_v2" "github_creds" {
 data "http" "global_config" {
   url = var.GLOBAL_CONFIG_ENDPOINT
 
-  # Optional request headers
   request_headers = {
     Content-Type = "application/json"
   }

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "~> 5"
+      version = "5.12.0"
     }
     vault = {
       source  = "hashicorp/vault"
@@ -32,6 +32,7 @@ provider "vault" {
 }
 
 provider "github" {
+  alias = "arpanrec"
   owner = "arpanrec"
   token = local.GH_PROD_API_TOKEN
 }

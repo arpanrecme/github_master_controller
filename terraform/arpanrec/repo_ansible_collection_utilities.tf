@@ -28,7 +28,6 @@ resource "github_branch_protection" "ansible_collection_utilities_main" {
   require_conversation_resolution = true
   required_status_checks {
     strict   = true
-    contexts = local.ANSIBLE_REQUIRED_STATUS_CHECKS_CONTEXTS
   }
   required_pull_request_reviews {
     dismiss_stale_reviews           = true
