@@ -26,7 +26,7 @@ resource "github_branch_protection" "ansible_plays_main" {
   require_signed_commits          = true
   require_conversation_resolution = true
   required_status_checks {
-    strict   = true
+    strict = true
   }
   required_pull_request_reviews {
     dismiss_stale_reviews           = true

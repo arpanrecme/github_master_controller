@@ -36,7 +36,7 @@ resource "github_branch_protection" "bitwarden_export_migrate" {
   repository_id                   = github_repository.bitwarden_export_migrate.node_id
   pattern                         = "main"
   enforce_admins                  = true
-  allows_deletions                = true
+  allows_deletions                = false
   require_signed_commits          = true
   require_conversation_resolution = true
   required_status_checks {

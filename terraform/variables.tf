@@ -11,7 +11,7 @@ variable "repository_default_branch_01292022_main" {
 
 variable "project_topic_controlled_by_master" {
   type      = string
-  default   = "controlled-by-gl-repo-manage"
+  default   = "controlled-by-gh-repo-manage"
   sensitive = false
 }
 
