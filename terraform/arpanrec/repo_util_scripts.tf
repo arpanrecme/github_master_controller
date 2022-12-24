@@ -1,38 +1,11 @@
-resource "github_repository" "util_scripts" {
-  name               = "util_scripts"
-  license_template   = var.license_template
-  description        = "Day to Day Utility Scripts"
-  visibility         = "public"
-  gitignore_template = "Python"
-  auto_init          = true
-  topics             = [var.project_topic_controlled_by_master, "bash"]
-}
+module "util_scripts" {
+  source = "./project_template"
 
-resource "github_branch_default" "util_scripts" {
-  repository = github_repository.util_scripts.name
-  branch     = var.repository_default_branch
-}
-
-resource "github_branch" "util_scripts_branch_feature_inprogress" {
-  repository = github_repository.util_scripts.name
-  branch     = "feature/inprogress"
-}
-
-resource "github_branch_protection" "util_scripts" {
-  repository_id                   = github_repository.util_scripts.node_id
-  pattern                         = "main"
-  enforce_admins                  = true
-  allows_deletions                = true
-  require_signed_commits          = true
-  require_conversation_resolution = true
-  required_status_checks {
-    strict   = true
-    contexts = local.SHELL_REQUIRED_STATUS_CHECKS_CONTEXTS
-  }
-
-  required_pull_request_reviews {
-    dismiss_stale_reviews           = true
-    restrict_dismissals             = false
-    required_approving_review_count = 0
-  }
+  license_template                   = var.license_template
+  repository_default_branch          = var.repository_default_branch
+  project_topic_controlled_by_master = var.project_topic_controlled_by_master
+  github_repository_name             = "util_scripts"
+  project_topics                     = ["bash"]
+  gitignore_template                 = "Python"
+  github_repository_description      = "Day to Day Utility Scripts"
 }

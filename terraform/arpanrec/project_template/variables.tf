@@ -69,8 +69,8 @@ variable "protection_contexts" {
   type      = list(string)
   default   = null
   sensitive = false
-  validation {
-    condition     = length(var.protection_contexts) > 0
-    error_message = "Missing mandatory pipeline checks"
-  }
+  # validation {
+  #   condition     = length(var.protection_contexts) > 0
+  #   error_message = "Missing mandatory pipeline checks"
+  # }
 }

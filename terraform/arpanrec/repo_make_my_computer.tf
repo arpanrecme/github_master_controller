@@ -8,5 +8,4 @@ module "make_my_computer" {
   project_topics                     = ["linux", "shell", "bootstrap"]
   gitignore_template                 = "Python"
   github_repository_description      = "OS Bootstrap script"
-  protection_contexts                = local.SHELL_REQUIRED_STATUS_CHECKS_CONTEXTS
 }
