@@ -6,25 +6,25 @@ resource "github_repository" "bitwarden_export_migrate" {
 
 resource "github_branch_default" "bitwarden_export_migrate" {
   repository = github_repository.bitwarden_export_migrate.name
-  branch     = var.repository_default_branch_01292022_main
+  branch     = var.repository_default_branch
 }
 
 resource "github_branch" "bitwarden_export_migrate_keepass_export" {
   repository    = github_repository.bitwarden_export_migrate.name
   branch        = "keepass_export"
-  source_branch = var.repository_default_branch_01292022_main
+  source_branch = var.repository_default_branch
 }
 
 resource "github_branch" "bitwarden_export_migrate_login_using_code" {
   repository    = github_repository.bitwarden_export_migrate.name
   branch        = "login_using_code"
-  source_branch = var.repository_default_branch_01292022_main
+  source_branch = var.repository_default_branch
 }
 
 resource "github_branch" "bitwarden_export_migrate_oldcode" {
   repository    = github_repository.bitwarden_export_migrate.name
   branch        = "oldcode"
-  source_branch = var.repository_default_branch_01292022_main
+  source_branch = var.repository_default_branch
 }
 
 resource "github_branch" "bitwarden_export_migrate_branch_feature_inprogress" {

@@ -10,7 +10,7 @@ resource "github_repository" "util_scripts" {
 
 resource "github_branch_default" "util_scripts" {
   repository = github_repository.util_scripts.name
-  branch     = var.repository_default_branch_01292022_main
+  branch     = var.repository_default_branch
 }
 
 resource "github_branch" "util_scripts_branch_feature_inprogress" {

@@ -3,7 +3,7 @@ variable "license_template" {
   default = "mit"
 }
 
-variable "repository_default_branch_01292022_main" {
+variable "repository_default_branch" {
   type        = string
   default     = "main"
   description = "This is the default branch for the repository at the time of creation."

@@ -4,7 +4,7 @@ variable "license_template" {
   sensitive = false
 }
 
-variable "repository_default_branch_01292022_main" {
+variable "repository_default_branch" {
   type        = string
   default     = null
   description = "This is the default branch for the repository at the time of creation."
